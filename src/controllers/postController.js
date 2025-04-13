@@ -6,7 +6,9 @@ exports.createPost = async (req, res) => {
     const { content, image } = req.body;
     const userId = req.user.userId;
     if (!content)
-      return res.status(400).json({ error: "Le contenu ne peut pas être vide" });
+      return res
+        .status(400)
+        .json({ error: "Le contenu ne peut pas être vide" });
     const post = new Post({ content, image, author: userId });
     await post.save();
     res.status(201).json(post);
@@ -53,16 +55,33 @@ exports.likePost = async (req, res) => {
 };
 // Récupérer tous les posts
 exports.getAllPosts = async (_req, res) => {
-    try {
+  try {
     const posts = await Post.find()
-    .populate('author', 'username avatar')
-    .populate({
-    path: 'comments',
-    populate: { path: 'author', select: 'username avatar' }
-    })
-    .sort({ createdAt: -1 });
+      .populate("author", "username avatar")
+      .populate({
+        path: "comments",
+        populate: { path: "author", select: "username avatar" },
+      })
+      .sort({ createdAt: -1 });
     res.json(posts);
-    } catch (error) {
-    res.status(500).json({ error: 'Erreur serveur' });
-    }
-   };
+  } catch (error) {
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};
+
+// Récupérer posts of a specific user
+exports.getUserPosts = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const posts = await Post.find({ author: userId })
+      .populate("author", "username avatar")
+      .populate({
+        path: "comments",
+        populate: { path: "author", select: "username avatar" },
+      })
+      .sort({ createdAt: -1 });
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};

@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 const authRoutes = require("./routes/authRoutes");
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes')
+const userRoutes = require('./routes/userRoutes')
 
 // Connexion à MongoDB
 mongoose
@@ -27,6 +28,7 @@ app.use(morgan("dev"));
 app.use("/api/auth", authRoutes)
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
+app.use('/api/users', userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Bienvenue sur l'API du réseau social !");
