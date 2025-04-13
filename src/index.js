@@ -8,6 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const authRoutes = require("./routes/authRoutes");
+const postRoutes = require('./routes/postRoutes');
 
 // Connexion à MongoDB
 mongoose
@@ -23,7 +24,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 
 app.use("/api/auth", authRoutes)
-
+app.use('/api/posts', postRoutes);
 app.get("/", (req, res) => {
   res.send("Bienvenue sur l'API du réseau social !");
 });
