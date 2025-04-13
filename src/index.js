@@ -6,6 +6,9 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+const authRoutes = require("./routes/authRoutes");
+
 // Connexion à MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
@@ -18,6 +21,9 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
+
+app.use("/api/auth", authRoutes)
+
 app.get("/", (req, res) => {
   res.send("Bienvenue sur l'API du réseau social !");
 });
