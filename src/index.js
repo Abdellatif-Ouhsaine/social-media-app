@@ -11,6 +11,7 @@ const authRoutes = require("./routes/authRoutes");
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes')
 const userRoutes = require('./routes/userRoutes')
+const searchRoutes = require("./routes/searchRoutes");
 
 // Connexion à MongoDB
 mongoose
@@ -26,6 +27,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 
 app.use("/api/auth", authRoutes)
+app.use("/api/search", searchRoutes)
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/users', userRoutes);
